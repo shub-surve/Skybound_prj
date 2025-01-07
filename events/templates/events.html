@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Root Variables */
+    :root {
+        --primary: #0a0a0a;
+        --secondary: #1a1a1a;
+        --accent: #00c6ff;
+        --accent-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+        --text: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: #151515;
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .events-page {
+        font-family: 'Inter', sans-serif;
+        padding: 120px 20px;
+        background: linear-gradient(135deg, var(--primary) 0%, #0d0d0d 100%);
+        color: var(--text);
+        min-height: calc(100vh - var(--nav-height));
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Animated background */
+    .events-page::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(0, 198, 255, 0.03) 0%, transparent 50%);
+        animation: pulse 8s ease-in-out infinite;
+        z-index: 0;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.5); }
+    }
+    
+    .page-title {
+        text-align: center;
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 60px;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        z-index: 1;
+        letter-spacing: -1px;
+    }
+    
+    .events-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .event-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .event-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 198, 255, 0.2);
+        border-color: var(--accent);
+    }
+    
+    .event-cover {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+    
+    .event-card:hover .event-cover {
+        transform: scale(1.1);
+    }
+    
+    .event-details {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: linear-gradient(0deg, var(--card-bg) 0%, rgba(21, 21, 21, 0.9) 100%);
+    }
+    
+    .event-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
+    
+    .event-description {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 25px;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+    
+    .event-meta {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .event-location,
+    .event-date,
+    .event-time,
+    .event-registration,
+    .event-package {
+        font-size: 1rem;
+        color: var(--text);
+        margin: 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .event-meta i {
+        color: var(--accent);
+        width: 20px;
+        opacity: 0.9;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 16px 32px;
+        background: var(--accent-gradient);
+        color: var(--text);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        text-align: center;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-100%);
+        transition: var(--transition);
+    }
+    
+    .btn:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 198, 255, 0.3);
+    }
+    
+    .btn:hover::before {
+        transform: translateX(0);
+    }
+
+    /* Shimmer effect for cards */
+    .event-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(
+            60deg,
+            transparent 20%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 80%
+        );
+        transform: translateX(-100%);
+        transition: none;
+    }
+
+    .event-card:hover::after {
+        transform: translateX(100%);
+        transition: transform 1s ease;
+    }
+
+    @media (max-width: 768px) {
+        .events-page {
+            padding: 80px 20px;
+        }
+        
+        .page-title {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+        }
+        
+        .events-container {
+            grid-template-columns: 1fr;
+            padding: 0 10px;
+            gap: 30px;
+        }
+        
+        .event-card {
+            max-width: 100%;
+        }
+        
+        .event-title {
+            font-size: 1.6rem;
+        }
+        
+        .event-description {
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+        }
+    }
+</style>
+
+<div class="events-page">
+    <h1 class="page-title">Upcoming Events</h1>
+    <div class="events-container">
+        {% for event in events %}
+        <div class="event-card" data-aos="fade-up">
+            <img src="{{ event.cover_img.url }}" alt="{{ event.name }}" class="event-cover">
+            <div class="event-details">
+                <h2 class="event-title">{{ event.name }}</h2>
+                <p class="event-description">{{ event.description|truncatewords:25|safe }}</p>
+                <div class="event-meta">
+                    <p class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        {{ event.date }}
+                    </p>
+                    <p class="event-registration">
+                        <i class="fas fa-ticket-alt"></i>
+                        ₹{{ event.registration_amt }}
+                    </p>
+                    <p class="event-description">
+                        <i class="fas fa-users"></i>
+                        {{ event.capacity }} spots
+                    </p>
+                    <p class="event-package">
+                        <i class="fas fa-box"></i>
+                        {{ event.package }}
+                    </p>
+                </div>
+                <a href="{% url 'event_details' event.id %}" class="btn">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

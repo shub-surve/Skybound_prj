@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+<link rel="stylesheet" href="{% static "ev_details.css" %}">
+
+<div class="event-detail">
+    <!-- Event Header Section -->
+    <div class="event-header" data-aos="fade-up">
+        <img src="{{ event.cover_img.url }}" alt="{{ event.name }}" class="event-cover">
+        <div class="event-info">
+            <h1 class="event-title">{{ event.name }}</h1>
+            <div class="event-quick-info">
+                <div class="info-item">
+                    <i class="fas fa-box"></i>
+                    <div>
+                        <div class="info-label">Package</div>
+                        <span>{{ event.package }}</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <div class="info-label">Capacity</div>
+                        <span>{{ event.capacity }} spots</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <div>
+                        <div class="info-label">Registration Fee</div>
+                        <span>₹{{ event.registration_amt }}</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-tag"></i>
+                    <div>
+                        <div class="info-label">Price</div>
+                        <span>₹{{ event.price_details }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="content-wrapper">
+        <div class="left-content" data-aos="fade-up" data-aos-delay="100">
+            <div class="event-description">
+                <h2>About this Event</h2>
+                {{ event.description|safe }}
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h2>What's Included</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="collapsible-content">
+                    <div class="collapsible-inner">
+                        {{ event.whats_included|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h2>What's Not Included</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="collapsible-content">
+                    <div class="collapsible-inner">
+                        {{ event.whats_not_included|safe }}
+                    </div>
+                </div>
+            </div>
+
+            {% if event.itinerary %}
+            <div class="event-itinerary">
+                <h2>Itinerary</h2>
+                {{ event.itinerary|safe }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="right-content" data-aos="fade-up" data-aos-delay="200">
+            <h2>Get Details</h2>
+      
+            <form method="POST" class="registration-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group phone-input-container">
+                    <label for="id_phone_no">Phone Number</label>
+                    {{ form.phone_no }}
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+
+
+            </form>
+            
+      
+
+            <div class="why-join-us">
+                <h3>Why Join Us?</h3>
+                
+                <div class="benefit-item">
+                    <i class="fas fa-medal"></i>
+                    <div class="benefit-content">
+                        <h4>Expert-Led Experience</h4>
+                        <p>Learn from industry professionals with years of experience in organizing and leading similar events.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <i class="fas fa-heart"></i>
+                    <div class="benefit-content">
+                        <h4>Curated Experience</h4>
+                        <p>Every detail is carefully planned to ensure you have the best possible experience.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <i class="fas fa-users"></i>
+                    <div class="benefit-content">
+                        <h4>Community Building</h4>
+                        <p>Connect with like-minded individuals and build lasting relationships.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="benefit-content">
+                        <h4>Safe and Secure</h4>
+                        <p>Your safety and security are our top priorities throughout the event.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.collapsible').forEach(item => {
+    item.querySelector('.collapsible-header').addEventListener('click', event => {
+        item.classList.toggle('active');
+        const icon = item.querySelector('i');
+        icon.classList.toggle('fa-chevron-up');
+        icon.classList.toggle('fa-chevron-down');
+    });
+    var phoneInput = document.querySelector("#id_phone_no");
+var iti = window.intlTelInput(phoneInput, {
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+    separateDialCode: true,
+    initialCountry: "auto",
+    geoIpLookup: function(callback) {
+        // You can replace this with your preferred geolocation service
+        fetch("https://ipapi.co/json")
+            .then(res => res.json())
+            .then(data => callback(data.country_code))
+            .catch(() => callback("in")); // Default to India if geolocation fails
+    },
+    preferredCountries: ["in", "us", "gb", "ca", "au"],
+    formatOnDisplay: true,
+    autoPlaceholder: "aggressive"
+});
+
+// Handle form submission
+document.querySelector('.registration-form').addEventListener('submit', function(e) {
+    if (!iti.isValidNumber()) {
+        e.preventDefault();
+        phoneInput.classList.add('error');
+        // You can add more error handling here
+    } else {
+        // Get the full number with country code
+        var fullNumber = iti.getNumber();
+        // You can set this to a hidden input if needed
+        phoneInput.value = fullNumber;
+    }
+});
+
+// Handle input validation in real-time
+phoneInput.addEventListener('input', function() {
+    if (iti.isValidNumber()) {
+        phoneInput.classList.remove('error');
+    }
+});
+});
+
+if ({{ mail_sent }}) {
+    alert("Mail has been sent successfully!");
+}
+</script>
+{% endblock %}

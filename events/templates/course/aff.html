@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static "aff.css" %}">
+<div class="aff-program">
+    <section class="hero-section" role="banner">
+        <div class="hero-content">
+            <h1 class="hero-title">Begin Your Skydiving Journey</h1>
+            <p class="hero-subtitle">From First Jump to Licensed Skydiver: Experience the Ultimate Freedom</p>
+            <a href="#contact" class="cta-button" aria-label="Start your skydiving training">
+                <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                Start Your Training
+            </a>
+        </div>
+    </section>
+
+    <section class="program-overview" id="program">
+        <div class="section-container">
+            <h2 class="section-title">AFF Program Levels</h2>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <span class="level-number" aria-hidden="true">1</span>
+                    <h3 class="level-title">Ground Training</h3>
+                    <p class="level-description">Comprehensive classroom instruction covering safety procedures, equipment familiarization, and basic skydiving techniques. Learn from expert instructors in a state-of-the-art facility.</p>
+                </div>
+                <div class="level-card">
+                    <span class="level-number" aria-hidden="true">2</span>
+                    <h3 class="level-title">First Jump Course</h3>
+                    <p class="level-description">Hands-on training with experienced instructors, preparing you for your first tandem jump experience. Practice emergency procedures and perfect your form in our training areas.</p>
+                </div>
+                <div class="level-card">
+                    <span class="level-number" aria-hidden="true">3</span>
+                    <h3 class="level-title">Solo Certification</h3>
+                    <p class="level-description">Progressive training jumps with two instructors, focusing on stability, altitude awareness, and safe deployment. Master the skills needed for independent jumping.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements" id="requirements">
+        <div class="section-container">
+            <h2 class="section-title">Program Requirements</h2>
+            <div class="requirements-grid">
+                <div class="requirement-item" tabindex="0">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <h3>Age Requirement</h3>
+                    <p>Must be 18 years or older with valid government-issued ID</p>
+                </div>
+                <div class="requirement-item" tabindex="0">
+                    <i class="fas fa-heartbeat" aria-hidden="true"></i>
+                    <h3>Medical Fitness</h3>
+                    <p>Basic medical self-declaration required. Consult your physician if unsure.</p>
+                </div>
+                <div class="requirement-item" tabindex="0">
+                    <i class="fas fa-weight" aria-hidden="true"></i>
+                    <h3>Weight Limits</h3>
+                    <p>Weight requirements vary by equipment. Generally 220 lbs (100 kg) maximum.</p>
+                </div>
+                <div class="requirement-item" tabindex="0">
+                    <i class="fas fa-book-reader" aria-hidden="true"></i>
+                    <h3>Training</h3>
+                    <p>Complete mandatory ground instruction and safety briefing before first jump.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="progress-path" id="progress">
+        <div class="section-container">
+            <h2 class="section-title">Your Path to Certification</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Ground School</h3>
+                        <p>6-8 hours of comprehensive ground training covering safety, equipment, and procedures</p>
+                        <ul class="timeline-details">
+                            <li>Equipment familiarization</li>
+                            <li>Safety protocols</li>
+                            <li>Emergency procedures</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>First Jump</h3>
+                        <p>Tandem jump with certified instructor to experience freefall</p>
+                        <ul class="timeline-details">
+                            <li>Pre-jump preparation</li>
+                            <li>In-air guidance</li>
+                            <li>Landing techniques</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>AFF Levels 1-7</h3>
+                        <p>Progressive skill development jumps with decreasing instructor assistance</p>
+                        <ul class="timeline-details">
+                            <li>Stability training</li>
+                            <li>Turning and tracking</li>
+                            <li>Solo deployment</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Solo Certification</h3>
+                        <p>Complete required solo jumps and written examination</p>
+                        <ul class="timeline-details">
+                            <li>Skills verification</li>
+                            <li>Written test</li>
+                            <li>License issuance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <h2>Ready to Take the Leap?</h2>
+            <p>Join our world-class AFF program and become a certified skydiver. Our expert instructors are ready to guide you through every step of your journey.</p>
+            <a href="#contact-form" class="cta-button" aria-label="Schedule your skydiving training">
+                <i class="fas fa-parachute-box" aria-hidden="true"></i>
+                Schedule Your Training
+            </a>
+            <p class="cta-note">* Flexible scheduling available • Equipment included • Financing options</p>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Intersection Observer for animation triggers
+    const observerOptions = {
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements
+    document.querySelectorAll('.level-card, .requirement-item, .timeline-item').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

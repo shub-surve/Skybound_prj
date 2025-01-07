@@ -1,0 +1,478 @@
+
+    /* Root Variables */
+    :root {
+        --primary: #0a0a23;
+        --secondary: #1a1a2e;
+        --accent: #00b4d8;
+        --accent-dark: #0077be;
+        --accent-gradient: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        --text: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: rgba(26, 26, 46, 0.95);
+        --border-color: rgba(255, 255, 255, 0.1);
+        --hover-bg: rgba(255, 255, 255, 0.08);
+        --success: #4CAF50;
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Global Styles */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background: var(--primary);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    /* Hero Section */
+    .hero-section {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                    url('/static/images/skydiving-hero.jpg') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        padding: 0 20px;
+        z-index: 2;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: var(--text);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        color: var(--text);
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--accent-gradient);
+        color: var(--text);
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+        transform: translateY(-100%);
+        transition: var(--transition);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .cta-button:hover::before {
+        transform: translateY(0);
+    }
+
+    /* Program Overview */
+    .program-overview {
+        padding: 100px 20px;
+        background: var(--primary);
+        position: relative;
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        margin-bottom: 50px;
+        text-align: center;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--accent-gradient);
+        transform: scaleX(0.3);
+        transition: var(--transition);
+    }
+
+    .section-title:hover::after {
+        transform: scaleX(1);
+    }
+
+    .levels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .level-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .level-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent);
+    }
+
+    .level-number {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 3rem;
+        font-weight: 800;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0.2;
+        transition: var(--transition);
+    }
+
+    .level-card:hover .level-number {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+
+    .level-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--accent);
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .level-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--accent);
+        transition: var(--transition);
+    }
+
+    .level-card:hover .level-title::after {
+        width: 80px;
+    }
+
+    .level-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        transition: var(--transition);
+    }
+
+    .level-card:hover .level-description {
+        color: var(--text);
+    }
+
+    /* Requirements Section */
+    .requirements {
+        padding: 100px 20px;
+        background: var(--secondary);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .requirements::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/static/images/pattern.svg') repeat;
+        opacity: 0.05;
+        animation: float 20s infinite linear;
+    }
+
+    .requirements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .requirement-item {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .requirement-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-gradient);
+        opacity: 0;
+        z-index: -1;
+        transition: var(--transition);
+    }
+
+    .requirement-item:hover {
+        transform: translateX(5px);
+        border-color: transparent;
+    }
+
+    .requirement-item:hover::before {
+        opacity: 0.1;
+    }
+
+    .requirement-item i {
+        color: var(--accent);
+        font-size: 2rem;
+        margin-bottom: 15px;
+        transition: var(--transition);
+    }
+
+    .requirement-item:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Timeline */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px 0;
+    }
+
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        background: var(--accent-gradient);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        padding: 20px 40px;
+        position: relative;
+        width: calc(50% - 20px);
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .timeline-item:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .timeline-item:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    .timeline-item:nth-child(4) {
+        animation-delay: 0.6s;
+    }
+
+    .timeline-item:nth-child(odd) {
+        left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 50%;
+    }
+
+    .timeline-content {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent);
+    }
+
+    .timeline-content::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: var(--transition);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content::after {
+        right: -60px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content::after {
+        left: -60px;
+    }
+
+    .timeline-content:hover::after {
+        box-shadow: 0 0 0 5px rgba(0, 180, 216, 0.2);
+    }
+
+    /* Call to Action Section */
+    .cta-section {
+        padding: 100px 20px;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                    url('/static/images/skydiving-cta.jpg') no-repeat center center;
+        background-size: cover;
+        background-attachment: fixed;
+        text-align: center;
+        color: var(--text);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-content {
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: 0 15px;
+        }
+
+        .timeline::after {
+            left: 31px;
+        }
+
+        .timeline-item {
+            width: 100%;
+            padding-left: 80px;
+            padding-right: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 0;
+        }
+
+        .timeline-content::after {
+            left: -49px !important;
+        }
+
+        .section-container {
+            padding: 0 15px;
+        }
+
+        .level-card,
+        .requirement-item {
+            margin: 0 15px;
+        }
+    }
+
+    /* Accessibility Improvements */
+    .cta-button:focus,
+    .timeline-content:focus-within {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+

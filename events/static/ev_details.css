@@ -1,0 +1,427 @@
+:root {
+    --primary: #0a0a0a;
+    --secondary: #1a1a1a;
+    --accent: #00c6ff;
+    --accent-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    --text: #ffffff;
+    --text-secondary: #a0a0a0;
+    --card-bg: #151515;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --hover-bg: rgba(255, 255, 255, 0.08);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.event-detail {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, #0d0d0d 100%);
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: calc(100% - 380px) 340px;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Event Header Styles */
+.event-header {
+    max-width: 1400px;
+    margin: 0 auto 40px;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 30px;
+}
+
+.event-cover {
+    width: 50%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.event-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.event-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+/* Quick Info Grid */
+.event-quick-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    margin-top: auto;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    transition: var(--transition);
+}
+
+.info-item:hover {
+    background: var(--hover-bg);
+    border-radius: 8px;
+}
+
+.info-item i {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.info-item span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Left Content Area */
+.left-content {
+    padding-right: 20px;
+}
+
+.event-description {
+    margin-bottom: 40px;
+}
+
+.event-description h2,
+.event-itinerary h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+/* Right Sidebar */
+.right-content {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+.right-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--accent);
+}
+
+/* Form Styles */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.registration-form input,
+.registration-form textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.registration-form input:focus,
+.registration-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.registration-form .btn {
+    background: var(--accent);
+    color: var(--text);
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.registration-form .btn:hover {
+    background: var(--accent-gradient);
+    transform: translateY(-2px);
+}
+
+/* Collapsible Sections */
+.collapsible {
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.collapsible-header:hover {
+    background: var(--hover-bg);
+}
+
+.collapsible-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.collapsible-header i {
+    transition: var(--transition);
+    color: var(--accent);
+}
+
+.collapsible.active .collapsible-header i {
+    transform: rotate(180deg);
+}
+
+.collapsible-content {
+    display: none;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.collapsible.active .collapsible-content {
+    display: block;
+}
+
+/* Why Join Us Section */
+.why-join-us {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.why-join-us h3 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    color: var(--accent);
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.benefit-item:hover {
+    background: var(--hover-bg);
+    transform: translateX(5px);
+}
+
+.benefit-item i {
+    color: var(--accent);
+    font-size: 1.2rem;
+    padding-top: 4px;
+}
+
+.benefit-content h4 {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.benefit-content p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .right-content {
+        position: relative;
+        top: 0;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .event-header {
+        flex-direction: column;
+        padding: 30px;
+    }
+    
+    .event-cover,
+    .event-info {
+        width: 100%;
+    }
+    
+    .event-title {
+        font-size: 2.5rem;
+    }
+    
+    .event-quick-info {
+        grid-template-columns: 1fr;
+    }
+}
+.phone-input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.iti {
+    width: 100%;
+    display: block;
+}
+
+.iti__flag {
+    background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/img/flags.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag {
+        background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/img/flags@2x.png");
+    }
+}
+
+.iti__country-list {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    max-width: 300px;
+}
+
+.iti__country {
+    padding: 8px 10px;
+    color: var(--text);
+}
+
+.iti__country:hover {
+    background-color: var(--hover-bg);
+}
+
+.iti__country.iti__highlight {
+    background-color: var(--hover-bg);
+}
+
+.iti__dial-code {
+    color: var(--text-secondary);
+}
+
+.iti__selected-flag {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px 0 0 8px;
+}
+
+.iti__selected-flag:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Adjust the phone input field to match your design */
+.phone-input input {
+    padding-left: 80px !important;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    transition: var(--transition);
+    width: 100%;
+}
+
+.phone-input input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Form layout adjustments */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* Error state */
+.iti__country-list-error {
+    color: #ff4444;
+    padding: 8px;
+    background-color: rgba(255, 68, 68, 0.1);
+    border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+    .event-detail {
+        padding: 60px 15px;
+    }
+    
+    .event-title {
+        font-size: 2rem;
+    }
+    
+    .right-content,
+    .event-header {
+        padding: 20px;
+    }
+}
