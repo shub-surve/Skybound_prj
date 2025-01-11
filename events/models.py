@@ -25,5 +25,36 @@ class Event(models.Model):
 class UserDetails(models.Model):
     username = models.CharField(max_length=150)
     email = models.EmailField()
-    phone_no = models.CharField(max_length=20 , blank=True)
-    # event = models.ForeignKey(Event, on_delete=models.CASCADE)  # ForeignKey to Event model
+    phone_no = models.CharField(max_length=20, blank=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,null=True)  # ForeignKey to Event model
+
+class Trainers(models.Model):
+    trainer_id = models.AutoField(primary_key=True)
+    profile_pic = models.ImageField(upload_to='trainers'  , default='')
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    desc = models.CharField(max_length=200)
+    no_of_jumps = models.PositiveIntegerField()
+
+class CourseDetails(models.Model):
+    course_name = models.CharField(max_length=50)
+    course_duration = models.CharField(max_length=50)
+    start_date = models.DateField()
+    course_desc = RichTextField()
+    itinerary = RichTextField()
+    whats_included = RichTextField()
+    whats_not_included = RichTextField()
+    trainer = models.ManyToManyField(Trainers , null=True , blank=True)
+
+    def __str__(self):
+        return super().__str__()
+
+class Course_image(models.Model):
+    course = models.ForeignKey(CourseDetails, on_delete=models.CASCADE)
+    models.ImageField(upload_to='course', height_field=None, width_field=None, max_length=None)
+
+class CourseLevel(models.Model):
+    course = models.OneToOneField(CourseDetails, on_delete=models.CASCADE)
+    level = models.IntegerField()
+    level_desc = RichTextField()
+

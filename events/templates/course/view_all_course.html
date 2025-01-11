@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Training Programs</h1>
+    
+    <div class="grid">
+        {% for course in courses %}
+        <div class="card">
+            {% if course.course_image_set.first %}
+                <img src="{{ course.course_image_set.first.image.url }}" alt="{{ course.course_name }}">
+            {% endif %}
+            
+            <div class="card-content">
+                <h3>{{ course.course_name }}</h3>
+                <div class="meta">
+                    <span>
+                        <i class="fas fa-clock"></i>
+                        {{ course.course_duration }}
+                    </span>
+                    <span>
+                        <i class="fas fa-calendar"></i>
+                        {{ course.start_date|date:"M d, Y" }}
+                    </span>
+                </div>
+                <p>{{ course.course_desc|safe|truncatewords:20 }}</p>
+                <a href="" class="cta-button">
+                    Learn More
+                    <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="program-card">
+            <h3>No Courses Available</h3>
+            <p>New programs coming soon. Stay tuned!</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+:root {
+    --primary: #0a0a0a;
+    --secondary: #151515;
+    --accent: #ff1a1a;
+    --accent-gradient: linear-gradient(135deg, #ff1a1a 0%, #cc0000 100%);
+    --text: #ffffff;
+    --text-secondary: #999999;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    background-color: var(--primary);
+    color: var(--text);
+}
+
+.section {
+    padding: 8rem 2rem;
+    position: relative;
+}
+
+.section-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--secondary);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
+    height: 450px;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 1;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(255, 26, 26, 0.2);
+}
+
+.card:hover::before {
+    opacity: 0.85;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+    color: var(--text);
+    z-index: 2;
+    transform: translateY(100px);
+    transition: var(--transition);
+}
+
+.card:hover .card-content {
+    transform: translateY(0);
+}
+
+.card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.meta {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+.card:hover p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-button {
+    display: inline-block;
+    background: var(--accent-gradient);
+    color: var(--text);
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.card:hover .cta-button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 26, 26, 0.3);
+}
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 0.5rem;
+}
+
+.cta-button:hover .arrow {
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.5rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .card {
+        height: 400px;
+    }
+}
+</style>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+        }
+    });
+}, {
+    threshold: 0.1
+});
+
+document.querySelectorAll('.card').forEach(card => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    observer.observe(card);
+});
+</script>
+{% endblock %}

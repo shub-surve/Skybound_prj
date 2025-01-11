@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --primary: #0a0a23;
+        --secondary: #1a1a2e;
+        --accent: #00b4d8;
+        --accent-dark: #0077be;
+        --accent-gradient: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        --text: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: rgba(26, 26, 46, 0.95);
+        --border-color: rgba(255, 255, 255, 0.1);
+        --hover-bg: rgba(255, 255, 255, 0.08);
+        --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.3);
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .about-hero {
+        height: 70vh;
+        background: linear-gradient(rgba(10, 10, 35, 0.8), rgba(26, 26, 46, 0.9)),
+                    url('/static/images/team-hero.jpg') no-repeat center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(transparent, var(--primary));
+    }
+
+    .about-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+        color: var(--text);
+    }
+
+    .section-title {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .story-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        align-items: center;
+        margin: 60px 0;
+    }
+
+    .story-image {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+    }
+
+    .story-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .story-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .story-text {
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+    }
+
+    .video-section {
+        position: relative;
+        padding-top: 56.25%;
+        margin: 80px 0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+    }
+
+    .video-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-gradient);
+        opacity: 0.1;
+        z-index: 1;
+    }
+
+    .video-section iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        z-index: 2;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+
+    .team-member {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid var(--border-color);
+    }
+
+    .team-member:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+    }
+
+    .member-image {
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .member-image::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(transparent, var(--card-bg));
+    }
+
+    .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .team-member:hover .member-image img {
+        transform: scale(1.1);
+    }
+
+    .member-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .member-info h3 {
+        color: var(--accent);
+        margin-bottom: 10px;
+    }
+
+    .member-info p {
+        color: var(--text-secondary);
+    }
+
+    .values-section {
+        background: var(--secondary);
+        padding: 80px 20px;
+        margin: 80px 0;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .values-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-gradient);
+        opacity: 0.05;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .value-item {
+        text-align: center;
+        padding: 30px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+    }
+
+    .value-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+    }
+
+    .value-icon {
+        font-size: 2.5rem;
+        color: var(--accent);
+        margin-bottom: 20px;
+    }
+
+    .stats-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 30px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        color: var(--accent);
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .story-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .about-hero {
+            height: 50vh;
+        }
+    }
+</style>
+
+<div class="about-page">
+    <section class="about-hero">
+        <div class="about-content">
+            <h1 class="section-title">Our Story of Flight</h1>
+            <p>Building Dreams, Creating Skydivers Since 1995</p>
+        </div>
+    </section>
+
+    <div class="about-content">
+        <div class="stats-section">
+            <div class="stat-item">
+                <div class="stat-number">25K+</div>
+                <p>Successful Jumps</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5K+</div>
+                <p>Certified Skydivers</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">28</div>
+                <p>Years Experience</p>
+            </div>
+        </div>
+
+        <div class="story-grid">
+            <div class="story-image">
+                <img src="/static/images/history-1.jpg" alt="Our early days of skydiving">
+            </div>
+            <div class="story-text">
+                <h2>Where It All Began</h2>
+                <p>Founded by passionate skydivers with over 25,000 combined jumps, our school has trained thousands of students in the art of freefall. Our journey started with a simple mission: to make the dream of flight accessible to everyone.</p>
+            </div>
+        </div>
+
+        <div class="video-section">
+            <iframe src="/static/videos/about-us.mp4" title="About our skydiving school"></iframe>
+        </div>
+
+        <h2 class="section-title">Meet Our Expert Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="/static/images/instructor-1.jpg" alt="Head Instructor">
+                </div>
+                <div class="member-info">
+                    <h3>Sarah Johnson</h3>
+                    <p>Head Instructor • 15,000+ Jumps</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="/static/images/instructor-2.jpg" alt="Safety Director">
+                </div>
+                <div class="member-info">
+                    <h3>Mike Thompson</h3>
+                    <p>Safety Director • 12,000+ Jumps</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="/static/images/instructor-3.jpg" alt="AFF Instructor">
+                </div>
+                <div class="member-info">
+                    <h3>David Chen</h3>
+                    <p>AFF Instructor • 8,000+ Jumps</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="values-section">
+            <h2 class="section-title">Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety First</h3>
+                    <p>Unwavering commitment to safety standards and protocols</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Excellence</h3>
+                    <p>Continuous improvement in training and equipment</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Passion</h3>
+                    <p>Sharing our love for skydiving with every student</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

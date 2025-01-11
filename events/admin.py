@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Event , UserDetails
+from .models import Event , UserDetails , CourseDetails , CourseLevel , Trainers
 # Register your models here.
-admin.site.register(Event)
-admin.site.register(UserDetails)
+admin.site.register([Event , UserDetails ,CourseLevel , CourseDetails ])

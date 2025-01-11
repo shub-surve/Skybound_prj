@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            background-color: #0073e6;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .event-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        .event-details, .instructions, .pricing {
+            margin: 20px 0;
+        }
+        .event-details h2, .instructions h2, .pricing h2 {
+            color: #0073e6;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .cta {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .cta a {
+            text-decoration: none;
+            background-color: #0073e6;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Thank You for Registering for {{ event.name }}</h1>
+        </div>
+
+        <!-- Event Image -->
+        <div class="event-image">
+            <img src="{{ event.cover_img.url }}" alt="Event Cover Image">
+        </div>
+
+        <!-- Event Details -->
+        <div class="event-details">
+            <h2>Event Details</h2>
+            <p><strong>Description:</strong> {{ event.description }}</p>
+            <p><strong>Package:</strong> {{ event.package }}</p>
+            <p><strong>Capacity:</strong> {{ event.capacity }} people</p>
+            <p><strong>Registration Amount:</strong> ₹{{ event.registration_amt }}</p>
+            <p><strong>Total Price:</strong> ₹{{ event.price_details }}</p>
+        </div>
+
+        <!-- What's Included -->
+        <div class="instructions">
+            <h2>What's Included</h2>
+            <p>{{ event.whats_included|safe }}</p>
+        </div>
+
+        <!-- What's Not Included -->
+        <div class="instructions">
+            <h2>What's Not Included</h2>
+            <p>{{ event.whats_not_included|safe }}</p>
+        </div>
+
+        <!-- Itinerary -->
+        <div class="instructions">
+            <h2>Itinerary</h2>
+            <p>{{ event.itinerary|safe }}</p>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta">
+            <a href="{{ booking_link }}">Complete Your Registration</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>SkyBound Events © {{ current_year }}</p>
+            <p>Powered by Django</p>
+        </div>
+    </div>
+</body>
+</html>
