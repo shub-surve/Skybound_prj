@@ -65,11 +65,6 @@ def get_event_and_mail(request, id):
     return render(request, 'event_details.html', {'event': event, 'form': form, 'mail_sent': mail_sent})
 
 
-
-        
-
-
-
 def user_logout(request):
     logout(request)
     return redirect('home')
@@ -81,3 +76,9 @@ def user_logout(request):
 def view_all_course(request):
     courses = CourseDetails.objects.all()
     return render(request , 'course/view_all_course.html' , {'courses' : courses})
+
+
+def view_course(request , pk):
+    course = get_object_or_404(CourseDetails.objects.prefetch_related('trainer') , pk=pk)
+    print(course.id)
+    return render(request , 'course/course_detail.html' , {'course' : course})

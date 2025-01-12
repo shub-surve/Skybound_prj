@@ -25,7 +25,7 @@
                     </span>
                 </div>
                 <p>{{ course.course_desc|safe|truncatewords:20 }}</p>
-                <a href="" class="cta-button">
+                <a href="{% url 'course_detail' course.id %}" class="cta-button">
                     Learn More
                     <span class="arrow">&rarr;</span>
                 </a>

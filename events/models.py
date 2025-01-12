@@ -51,7 +51,7 @@ class CourseDetails(models.Model):
 
 class Course_image(models.Model):
     course = models.ForeignKey(CourseDetails, on_delete=models.CASCADE)
-    models.ImageField(upload_to='course', height_field=None, width_field=None, max_length=None)
+    image = models.ImageField(upload_to='course', height_field=None, width_field=None, max_length=None , blank=True , null=True)
 
 class CourseLevel(models.Model):
     course = models.OneToOneField(CourseDetails, on_delete=models.CASCADE)
