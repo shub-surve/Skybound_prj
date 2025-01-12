@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Event Details</title>
+    <title>Event Registration Confirmation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
         }
         .email-container {
             max-width: 600px;
@@ -14,49 +17,98 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .header {
             text-align: center;
-            background-color: #0073e6;
+            background: linear-gradient(135deg, #0073e6 0%, #00508f 100%);
             color: #fff;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
         }
         .header h1 {
             margin: 0;
             font-size: 24px;
+            font-weight: 600;
         }
         .event-image img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 15px;
+            width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .event-details, .instructions, .pricing {
-            margin: 20px 0;
+        .section {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #0073e6;
         }
-        .event-details h2, .instructions h2, .pricing h2 {
+        .section h2 {
             color: #0073e6;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        .important-notice {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .refund-policy {
+            background-color: #e8f4fd;
+            border-left: 4px solid #0073e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
         }
         .cta {
             text-align: center;
-            margin-top: 20px;
+            margin: 30px 0;
         }
         .cta a {
+            display: inline-block;
             text-decoration: none;
-            background-color: #0073e6;
+            background: linear-gradient(135deg, #0073e6 0%, #00508f 100%);
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 25px;
             font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .cta a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .contact-support {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
         }
         .footer {
             text-align: center;
             font-size: 14px;
-            color: #999;
-            margin-top: 20px;
+            color: #666;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            margin: 0 10px;
+            color: #0073e6;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -65,6 +117,7 @@
         <!-- Header -->
         <div class="header">
             <h1>Thank You for Registering for {{ event.name }}</h1>
+            <p style="margin: 10px 0 0 0;">Your adventure begins here!</p>
         </div>
 
         <!-- Event Image -->
@@ -72,8 +125,14 @@
             <img src="{{ event.cover_img.url }}" alt="Event Cover Image">
         </div>
 
+        <!-- Booking Confirmation -->
+        <div class="important-notice">
+            <h3 style="margin-top: 0;">Booking Reference: #{{ booking.reference }}</h3>
+            <p>Please save this email for your records. You'll need this reference number for any future correspondence.</p>
+        </div>
+
         <!-- Event Details -->
-        <div class="event-details">
+        <div class="section">
             <h2>Event Details</h2>
             <p><strong>Description:</strong> {{ event.description }}</p>
             <p><strong>Package:</strong> {{ event.package }}</p>
@@ -82,22 +141,52 @@
             <p><strong>Total Price:</strong> ₹{{ event.price_details }}</p>
         </div>
 
+        <!-- Refund Policy -->
+        <div class="refund-policy">
+            <h2>Refund Policy</h2>
+            <p><strong>7-Day Cancellation Policy:</strong></p>
+            <ul>
+                <li>100% refund if cancelled within 7 days of booking</li>
+                <li>Cancellation must be requested in writing to support@skyboundevents.com</li>
+                <li>Refund will be processed within 5-7 business days</li>
+                <li>Processing fees are non-refundable</li>
+            </ul>
+            <p><strong>After 7 Days:</strong></p>
+            <ul>
+                <li>50% refund if cancelled 30 days before the event</li>
+                <li>No refund for cancellations within 30 days of the event</li>
+                <li>Registration can be transferred to another person up to 14 days before the event</li>
+            </ul>
+        </div>
+
         <!-- What's Included -->
-        <div class="instructions">
+        <div class="section">
             <h2>What's Included</h2>
             <p>{{ event.whats_included|safe }}</p>
         </div>
 
         <!-- What's Not Included -->
-        <div class="instructions">
+        <div class="section">
             <h2>What's Not Included</h2>
             <p>{{ event.whats_not_included|safe }}</p>
         </div>
 
         <!-- Itinerary -->
-        <div class="instructions">
+        <div class="section">
             <h2>Itinerary</h2>
             <p>{{ event.itinerary|safe }}</p>
+        </div>
+
+        <!-- Important Information -->
+        <div class="section">
+            <h2>Important Information</h2>
+            <ul>
+                <li>Please arrive 15 minutes before the scheduled time</li>
+                <li>Carry a valid government-issued photo ID</li>
+                <li>Weather-appropriate clothing is recommended</li>
+                <li>Follow all safety guidelines provided by our team</li>
+                <li>Travel insurance is recommended</li>
+            </ul>
         </div>
 
         <!-- Call to Action -->
@@ -105,10 +194,26 @@
             <a href="{{ booking_link }}">Complete Your Registration</a>
         </div>
 
+        <!-- Contact Support -->
+        <div class="contact-support">
+            <h3>Need Help?</h3>
+            <p>Our support team is available 24/7</p>
+            <p>Email: support@skyboundevents.com</p>
+            <p>Phone: +91-XXXXXXXXXX</p>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+        </div>
+
         <!-- Footer -->
         <div class="footer">
             <p>SkyBound Events © {{ current_year }}</p>
             <p>Powered by Django</p>
+            <p><small>This email was sent to {{ user.email }}. If you didn't register for this event, please ignore this email.</small></p>
         </div>
     </div>
 </body>

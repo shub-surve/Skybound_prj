@@ -84,7 +84,14 @@
             {% endif %}
         </div>
         
-
+        {% if mail_sent %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Email Sent!</h4>
+            <p>The email has been successfully sent. Please check your inbox and view the attached PDF.</p>
+            <hr />
+            <p class="mb-0">Thank you for reaching out to us.</p>
+        </div>
+        {% endif %}
 
 <div class="right-content" data-aos="fade-up" data-aos-delay="200">
     <h2>Get Details</h2>
@@ -116,6 +123,8 @@
         </ul>
     </div>
     {% endif %}
+
+
     
 
 
@@ -206,8 +215,6 @@ phoneInput.addEventListener('input', function() {
 });
 });
 
-if ({{ mail_sent }}) {
-    alert("Mail has been sent successfully!");
-}
+
 </script>
 {% endblock %}
