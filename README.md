@@ -169,5 +169,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ---
 
 ## Contact
-For queries or support, email us at **support@example.com**.
+For queries or support, email us at **Shubhamsurve30803@gmail.com**.
 
