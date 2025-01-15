@@ -181,17 +181,17 @@
             </div>
             <div class="nav-links">
                 <a href="{% url 'events_page' %}">Events</a>
-                <a href="{% url "courses" %}">Courses</a>
+                <a href="{% url 'courses' %}">Courses</a>
                 <a href="#space">Explore</a>
                 <a href="">About Us</a>
-                <a>
-                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                        {% csrf_token %}
-                    </form>
-                    <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
-                </a>
+                {% if user.is_authenticated %}
+                    <a href="">Profile</a>
+                    <a href="{% url 'account_logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}">Login</a>
+                    <a href="{% url 'account_signup' %}">Register</a>
+                {% endif %}
             </div>
-        </div>
     </nav>
 
     

@@ -193,7 +193,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
 
 # Debugging: Print EMAIL_HOST_USER to verify
-print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
 
 # Debug prints
 # print(f"EMAIL_HOST_USER: {env('EMAIL_HOST_USER')}")
