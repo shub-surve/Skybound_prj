@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'intl_tel_input',
     'allauth.socialaccount.providers.google',
     'events',
+    'explore',
 ]
 
 MIDDLEWARE = [
