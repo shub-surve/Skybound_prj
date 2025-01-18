@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Out</title>
+    <link rel="stylesheet" href="{% static "style.css" %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Are You Sure You Want to Sign Out?</h1>
+        <div class="btn-group">
+            <form id="logout-form" method="POST" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit">Yes Signout!</button>
+            </form>
+            
+            <a href="/dashboard" class="btn btn-secondary">No, Take Me Back</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

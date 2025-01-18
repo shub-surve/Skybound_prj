@@ -173,7 +173,11 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
-ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # Redirect to home page after signup
+ACCOUNT_SIGNUP_REDIRECT_URL = '/' 
+ACCOUNT_LOGOUT_REDIRECT_URL = '/' 
+LOGOUT_REDIRECT_URL = '/'  # Redirect after allauth logout
+ # Redirect after allauth logout
+
 
 
 

@@ -11,7 +11,8 @@
             --text: #ffffff;
             --footer-bg: #1a1a1a;
             --footer-text: #999;
-            --nav-height: 80px; /* Define navbar height */
+            --nav-height: 80px;
+            --transition-speed: 0.3s;
         }
 
         * {
@@ -21,25 +22,27 @@
             font-family: 'Helvetica Neue', sans-serif;
         }
 
-      
-       
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: var(--nav-height);
-            padding: 1.5rem;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px);
             z-index: 1000;
-            text-decoration: none;
-
         }
 
         .nav-content {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,6 +53,9 @@
             font-size: 2rem;
             font-weight: 900;
             letter-spacing: 2px;
+        }
+
+        .logo a {
             color: var(--text);
             text-decoration: none;
         }
@@ -59,7 +65,6 @@
             gap: 3rem;
             height: 100%;
             align-items: center;
-            text-decoration: none;
         }
 
         .nav-links a {
@@ -70,9 +75,7 @@
             font-size: 0.9rem;
             letter-spacing: 1px;
             position: relative;
-            height: 100%;
-            display: flex;
-            align-items: center;
+            padding: 0.5rem 0;
         }
 
         .nav-links a::after {
@@ -80,22 +83,42 @@
             position: absolute;
             width: 0;
             height: 2px;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             background: var(--accent);
-            transition: width 0.3s;
+            transition: width var(--transition-speed);
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px 0;
+            background: var(--text);
+            transition: transform var(--transition-speed), opacity var(--transition-speed);
+        }
+
+        .content {
+            margin-top: var(--nav-height);
+            flex: 1;
+            width: 100%;
+        }
 
         footer {
             background: var(--footer-bg);
             padding: 4rem 2rem;
-            margin-top: auto;
         }
 
         .footer-content {
@@ -124,7 +147,7 @@
         .footer-links a {
             color: var(--footer-text);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color var(--transition-speed);
         }
 
         .footer-links a:hover {
@@ -144,21 +167,41 @@
                 --nav-height: 70px;
             }
 
+            .hamburger {
+                display: block;
+                z-index: 2000;
+            }
+
             .nav-links {
-                display: none;
-                position: absolute;
+                position: fixed;
                 top: var(--nav-height);
                 left: 0;
                 right: 0;
                 background: rgba(0, 0, 0, 0.95);
-                padding: 1rem 0;
+                padding: 1rem;
                 flex-direction: column;
-                height: auto;
+                height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: height var(--transition-speed), opacity var(--transition-speed);
             }
 
             .nav-links.active {
-                display: flex;
-                gap: 1rem;
+                height: auto;
+                opacity: 1;
+                padding: 2rem;
+            }
+
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
             }
 
             .footer-content {
@@ -177,24 +220,28 @@
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo">
-                <a href="{% url "home" %}" style="text-decoration: none ; color: white">SKYBOUND</a>
+                <a href="{% url 'home' %}">SKYBOUND</a>
             </div>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
             <div class="nav-links">
                 <a href="{% url 'events_page' %}">Events</a>
                 <a href="{% url 'courses' %}">Courses</a>
-                <a href="{% url "blogs" %}">Explore</a>
-                <a href="">About Us</a>
+                <a href="{% url 'blogs' %}">Explore</a>
+                <a href="#">About Us</a>
                 {% if user.is_authenticated %}
-                    <a href="">Profile</a>
+                    <a href="#">Profile</a>
                     <a href="{% url 'account_logout' %}">Logout</a>
                 {% else %}
                     <a href="{% url 'account_login' %}">Login</a>
                     <a href="{% url 'account_signup' %}">Register</a>
                 {% endif %}
             </div>
+        </div>
     </nav>
-
-    
 
     <main class="content">
         {% block content %}
@@ -243,5 +290,33 @@
             <p>&copy; 2024 Skybound. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!hamburger.contains(event.target) && !navLinks.contains(event.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+
+            // Close menu when window is resized beyond mobile breakpoint
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
