@@ -26,7 +26,7 @@ class UserDetails(models.Model):
     username = models.CharField(max_length=150)
     email = models.EmailField()
     phone_no = models.CharField(max_length=20, blank=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE,null=True)  # ForeignKey to Event model
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,null=True)
 
 class Trainers(models.Model):
     trainer_id = models.AutoField(primary_key=True)
@@ -39,6 +39,8 @@ class Trainers(models.Model):
 class CourseDetails(models.Model):
     course_name = models.CharField(max_length=50)
     course_duration = models.CharField(max_length=50)
+    registration_fees = models.BigIntegerField(null=True, blank=True)
+    total_fees = models.BigIntegerField(null=True, blank=True)
     start_date = models.DateField()
     course_desc = RichTextField()
     itinerary = RichTextField()
