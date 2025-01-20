@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', include('events.urls')),
     path('blogs/' , include('explore.urls')),
+    path('booking/' , include('bookings.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 LOGIN_REDIRECT_URL = '/'

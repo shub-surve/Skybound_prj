@@ -22,6 +22,8 @@ class Event(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     cover_img = models.ImageField(upload_to='event/covers', max_length=None)
 
+
+
 class UserDetails(models.Model):
     username = models.CharField(max_length=150)
     email = models.EmailField()
