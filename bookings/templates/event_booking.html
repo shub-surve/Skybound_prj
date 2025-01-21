@@ -6,17 +6,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Event Booking</title>
 </head>
 <body>
-    <h1>
-        Booking for {{ event.name }}
-    </h1>
-    <form action="" method='post'>
+    <h1>Booking for {{ event.name }}</h1>
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Continue</button>
+        <button type="submit">Book Event</button>
     </form>
+
+    {% if booking %}
+        <p>Your booking is successful!</p>
+        <a href="{% url 'payments:event_payment' booking.id %}">Proceed to Payment</a>
+    {% endif %}
 </body>
 </html>
 {% endblock %}

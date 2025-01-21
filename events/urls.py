@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path , include
 from django.contrib.auth.views import LogoutView
 from .views import get_event_and_mail, home, get_all_events , view_all_course , view_course
 

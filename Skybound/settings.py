@@ -48,9 +48,12 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'intl_tel_input',
     'allauth.socialaccount.providers.google',
+    'razorpay',
     'events',
     'explore',
     'bookings',
+    'payments',
+
 ]
 
 MIDDLEWARE = [
@@ -197,6 +200,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
+
+
+
+RAZORPAY_API_KEY = 'rzp_test_TXCZ29e2IhemW0'
+RAZORPAY_KEY_SECRET = 'YRBSp8wMkmA8fr9Gr5WmCSrw'
 
 # Debugging: Print EMAIL_HOST_USER to verify
 
