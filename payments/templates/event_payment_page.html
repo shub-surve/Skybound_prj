@@ -1,79 +1,320 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Payment</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
-<body>
-    <h1>Payment for {{ booking.event.name }}</h1>
-    <p>Amount: ₹{{ amount }}</p>
-    <form action="" method='post'>
-        {% csrf_token %}
-        <button id="rzp-button1">Pay Now</button>
-    </form>
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .payment-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        color: var(--text);
+    }
 
-    <script>
-        var options = {
-            "key": "{{ settings.RAZORPAY_SECRET_KEY }}", // Your Razorpay API Key
-            "amount": {{ amount|floatformat:0|add:"00" }}, // Amount in paise
-            "currency": "INR",
-            "name": "{{ booking.event.name }}",
-            "description": "Payment for event booking",
-            "order_id": "{{ razorpay_order_id }}", // This is the order_id created by you in the backend
-            "handler": function (response){
-                // Send payment details to your server
-                var form = document.createElement("form");
-                form.method = "POST";
-                form.action = "{% url 'payments:payment_callback' %}";
+    .event-header {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
 
-                // Add CSRF token
-                var csrfToken = '{{ csrf_token }}'; // Get CSRF token from Django template
-                var hiddenFieldCsrf = document.createElement("input");
-                hiddenFieldCsrf.type = "hidden";
-                hiddenFieldCsrf.name = "csrfmiddlewaretoken"; // CSRF token field name
-                hiddenFieldCsrf.value = csrfToken;
+    .event-cover {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
 
-                var hiddenField1 = document.createElement("input");
-                hiddenField1.type = "hidden";
-                hiddenField1.name = "razorpay_order_id";
-                hiddenField1.value = response.razorpay_order_id;
+    .event-title-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    }
 
-                var hiddenField2 = document.createElement("input");
-                hiddenField2.type = "hidden";
-                hiddenField2.name = "razorpay_payment_id";
-                hiddenField2.value = response.razorpay_payment_id;
+    .event-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.8s ease-out;
+    }
 
-                var hiddenField3 = document.createElement("input");
-                hiddenField3.type = "hidden";
-                hiddenField3.name = "razorpay_signature";
-                hiddenField3.value = response.razorpay_signature;
+    .event-price {
+        font-size: 1.5rem;
+        color: var(--accent);
+    }
 
-                // Append all fields to the form
-                form.appendChild(hiddenFieldCsrf);
-                form.appendChild(hiddenField1);
-                form.appendChild(hiddenField2);
-                form.appendChild(hiddenField3);
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
 
-                document.body.appendChild(form);
-                form.submit();
-            },
-            "prefill": {
-                "name": "{{ booking.user.name }}", // Optional
-                "email": "{{ booking.user.email }}", // Optional
-                "contact": "{{ booking.user.phone }}", // Optional
-            },
-            "theme": {
-                "color": "#F37254" // Optional
-            }
-        };
+    .event-details {
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
 
-        var rzp1 = new Razorpay(options);
-        document.getElementById('rzp-button1').onclick = function(e){
-            rzp1.open();
-            e.preventDefault();
+    .payment-sidebar {
+        position: sticky;
+        top: calc(var(--nav-height) + 2rem);
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 2rem;
+        height: fit-content;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .section {
+        margin-bottom: 2rem;
+        animation: slideUp 0.6s ease-out;
+    }
+
+    .section h2 {
+        color: var(--accent);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .section h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--accent);
+    }
+
+    .detail-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .detail-list li {
+        margin: 0.8rem 0;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+    .detail-list li::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+    }
+
+    .important-note {
+        background: rgba(255, 0, 0, 0.1);
+        border-left: 4px solid var(--accent);
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .payment-button {
+        background: var(--accent);
+        color: var(--text);
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        margin-top: 1rem;
+    }
+
+    .payment-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+
+    .refund-policy {
+        font-size: 0.9rem;
+        color: var(--footer-text);
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
         }
-    </script>
-</body>
-</html>
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @media (max-width: 968px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .payment-sidebar {
+            position: relative;
+            top: 0;
+        }
+
+        .event-cover {
+            height: 300px;
+        }
+    }
+</style>
+
+<div class="payment-container">
+    <div class="event-header">
+        <img src="{{ booking.event.cover_img.url }}" alt="{{ booking.event.name }}" class="event-cover">
+        <div class="event-title-container">
+            <h1 class="event-title">{{ booking.event.name }}</h1>
+            <div class="event-price">₹{{ amount }}</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="event-details">
+            <div class="section">
+                <h2>Event Description</h2>
+                <div>{{ booking.event.description|safe }}</div>
+            </div>
+
+            <div class="section">
+                <h2>What's Included</h2>
+                <div>{{ booking.event.whats_included|safe }}</div>
+            </div>
+
+            <div class="section">
+                <h2>What's Not Included</h2>
+                <div>{{ booking.event.whats_not_included|safe }}</div>
+            </div>
+
+            <div class="section">
+                <h2>Itinerary</h2>
+                <div>{{ booking.event.itinerary|safe }}</div>
+            </div>
+
+            <div class="section">
+                <h2>Things to Carry</h2>
+                <ul class="detail-list">
+                    <li>Valid ID proof</li>
+                    <li>Comfortable clothing suitable for the activity</li>
+                    <li>Personal medications if any</li>
+                    <li>Camera (optional)</li>
+                    <li>Water bottle</li>
+                    <li>Weather appropriate gear</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2><a href="{% url "safety" %}">Important Instructions</a></h2>
+                <ul class="detail-list">
+                    <li>Please arrive 30 minutes before the scheduled time</li>
+                    <li>Follow all safety instructions provided by the guides</li>
+                    <li>Inform the team about any medical conditions</li>
+                    <li>Stay with the group at all times</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="payment-sidebar">
+            <div class="section">
+                <h2>Booking Summary</h2>
+                <ul class="detail-list">
+                    <li>Package: {{ booking.event.package }}</li>
+                    <li>Registration Amount: ₹{{ booking.event.registration_amt }}</li>
+                    <li>Total Price: ₹{{ booking.event.price_details }}</li>
+                    <li>Available Spots: {{ booking.event.capacity }}</li>
+                </ul>
+            </div>
+
+            <div class="important-note">
+                <strong>Cancellation Policy:</strong>
+                <p>100% refund if cancelled 7 days before the event<br>
+                   50% refund if cancelled 3-7 days before the event<br>
+                   No refund for cancellations within 72 hours</p>
+            </div>
+
+            <form action="" method='post' id="payment-form">
+                {% csrf_token %}
+                <button id="rzp-button1" class="payment-button">Pay Now</button>
+            </form>
+
+            <div class="refund-policy">
+                By proceeding with the payment, you agree to our terms and conditions.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ settings.RAZORPAY_SECRET_KEY }}",
+        "amount": {{ amount|floatformat:0|add:"00" }},
+        "currency": "INR",
+        "name": "{{ booking.event.name }}",
+        "description": "Payment for event booking",
+        "order_id": "{{ razorpay_order_id }}",
+        "handler": function (response){
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "{% url 'payments:payment_callback' %}";
+            
+            var csrfToken = '{{ csrf_token }}';
+            var hiddenFieldCsrf = document.createElement("input");
+            hiddenFieldCsrf.type = "hidden";
+            hiddenFieldCsrf.name = "csrfmiddlewaretoken";
+            hiddenFieldCsrf.value = csrfToken;
+            
+            var hiddenField1 = document.createElement("input");
+            hiddenField1.type = "hidden";
+            hiddenField1.name = "razorpay_order_id";
+            hiddenField1.value = response.razorpay_order_id;
+            
+            var hiddenField2 = document.createElement("input");
+            hiddenField2.type = "hidden";
+            hiddenField2.name = "razorpay_payment_id";
+            hiddenField2.value = response.razorpay_payment_id;
+            
+            var hiddenField3 = document.createElement("input");
+            hiddenField3.type = "hidden";
+            hiddenField3.name = "razorpay_signature";
+            hiddenField3.value = response.razorpay_signature;
+            
+            form.appendChild(hiddenFieldCsrf);
+            form.appendChild(hiddenField1);
+            form.appendChild(hiddenField2);
+            form.appendChild(hiddenField3);
+            
+            document.body.appendChild(form);
+            form.submit();
+        },
+        "prefill": {
+            "name": "{{ booking.user.name }}",
+            "email": "{{ booking.user.email }}",
+            "contact": "{{ booking.user.phone }}"
+        },
+        "theme": {
+            "color": "#ff0000"
+        }
+    };
+    
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+{% endblock %}

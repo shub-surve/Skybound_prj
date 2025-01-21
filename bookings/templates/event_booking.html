@@ -1,25 +1,197 @@
 {% extends "base.html" %}
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Booking</title>
-</head>
-<body>
-    <h1>Booking for {{ event.name }}</h1>
-    <form method="post">
+<style>
+    .booking-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.6s ease-out;
+    }
+
+    .booking-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: var(--text);
+    }
+
+    .booking-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .booking-header h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 3px;
+        background: var(--accent);
+        animation: expandWidth 0.8s ease-out forwards;
+    }
+
+    .booking-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        animation: fadeIn 0.5s ease-out forwards;
+        opacity: 0;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.2s; }
+    .form-group:nth-child(2) { animation-delay: 0.4s; }
+    .form-group:nth-child(3) { animation-delay: 0.6s; }
+
+    .booking-form label {
+        display: block;
+        color: var(--text);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 1rem;
+        transition: all var(--transition-speed);
+    }
+
+    .booking-form input:focus,
+    .booking-form select:focus,
+    .booking-form textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+    }
+
+    .submit-btn {
+        background: var(--accent);
+        color: var(--text);
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .success-message {
+        background: rgba(0, 255, 0, 0.1);
+        border: 1px solid rgba(0, 255, 0, 0.2);
+        padding: 1.5rem;
+        border-radius: 6px;
+        margin-top: 2rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .payment-link {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--text);
+        padding: 1rem 2rem;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-top: 1rem;
+        font-weight: 600;
+        transition: all var(--transition-speed);
+    }
+
+    .payment-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes expandWidth {
+        from { width: 0; }
+        to { width: 50%; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .booking-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+
+        .booking-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="booking-container">
+    <div class="booking-header">
+        <h1>Booking for {{ event.name }}</h1>
+    </div>
+
+    <form method="post" class="booking-form" action="{% url 'payments:event_payment' booking.id %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Book Event</button>
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div class="error-message">
+                {{ field.errors }}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-btn">
+            Book Event
+        </button>
     </form>
 
-    {% if booking %}
-        <p>Your booking is successful!</p>
-        <a href="{% url 'payments:event_payment' booking.id %}">Proceed to Payment</a>
-    {% endif %}
-</body>
-</html>
+  
+ 
+</div>
 {% endblock %}

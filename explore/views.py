@@ -10,3 +10,6 @@ def all_blogs(request):
 def single_blog(request , id):
     blog = get_object_or_404(BlogPost , pk=id)
     return render(request , 'blog.html' , {'blog' : blog})
+
+def safety_inst(request):
+    return render(request , 'basics/safety_inst.html')

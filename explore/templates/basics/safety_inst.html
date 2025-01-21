@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .safety-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        color: var(--text);
+    }
+
+    .safety-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .safety-header h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .safety-header p {
+        font-size: 1.2rem;
+        color: var(--footer-text);
+    }
+
+    .content-section {
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.6s ease-out;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent);
+        font-size: 1.8rem;
+    }
+
+    .section-title i {
+        font-size: 2rem;
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        margin: 2rem 0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .warning-box {
+        background: rgba(255, 0, 0, 0.1);
+        border-left: 4px solid var(--accent);
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 0 8px 8px 0;
+        animation: pulse 2s infinite;
+    }
+
+    .safety-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .safety-list li {
+        margin: 1rem 0;
+        padding-left: 2rem;
+        position: relative;
+    }
+
+    .safety-list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: bold;
+    }
+
+    .medical-requirements {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+    }
+
+    .emergency-contacts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .contact-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        border-radius: 8px;
+        transition: transform var(--transition-speed);
+    }
+
+    .contact-card:hover {
+        transform: translateY(-5px);
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.8; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+        .safety-container {
+            padding: 1rem;
+        }
+
+        .safety-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="safety-container">
+    <div class="safety-header">
+        <h1>Safety First: Your Complete Guide</h1>
+        <p>Before taking the leap, please review all safety instructions carefully</p>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">
+            <i class="fas fa-exclamation-triangle"></i>
+            Essential Safety Instructions
+        </h2>
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/MwgYrgs6HaU" 
+                title="Safety Instructions" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">
+            <i class="fas fa-parachute-box"></i>
+            How Your Parachute Works
+        </h2>
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/MwgYrgs6HaU" 
+                title="Parachute Operation" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">
+            <i class="fas fa-clipboard-list"></i>
+            Critical Requirements
+        </h2>
+        
+        <div class="warning-box">
+            <h3>⚠️ IMPORTANT: Medical Certificate Required</h3>
+            <p>A valid medical certificate is mandatory for all participants. No exceptions will be made.</p>
+        </div>
+
+        <div class="medical-requirements">
+            <h3>Medical Certificate Must Include:</h3>
+            <ul class="safety-list">
+                <li>General fitness assessment</li>
+                <li>Blood pressure readings</li>
+                <li>Heart condition evaluation</li>
+                <li>Statement of fitness for skydiving</li>
+                <li>Doctor's signature and stamp</li>
+                <li>Issue date (must be within last 3 months)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">
+            <i class="fas fa-list-check"></i>
+            Essential Safety Checklist
+        </h2>
+        <ul class="safety-list">
+            <li>Follow all instructor commands without hesitation</li>
+            <li>Maintain proper body position during freefall</li>
+            <li>Know your altitude awareness procedures</li>
+            <li>Remember emergency protocols</li>
+            <li>Check all equipment before boarding</li>
+            <li>Stay focused during the entire jump</li>
+            <li>Maintain clear communication with your instructor</li>
+        </ul>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">
+            <i class="fas fa-phone-volume"></i>
+            Emergency Contacts
+        </h2>
+        <div class="emergency-contacts">
+            <div class="contact-card">
+                <h3>On-Site Medical Team</h3>
+                <p>Available 24/7</p>
+                <p>Emergency: +91 XXXXXXXXXX</p>
+            </div>
+            <div class="contact-card">
+                <h3>Safety Officer</h3>
+                <p>Direct Line: +91 XXXXXXXXXX</p>
+                <p>Email: safety@skybound.com</p>
+            </div>
+            <div class="contact-card">
+                <h3>Local Hospital</h3>
+                <p>Address: Nearby City Hospital</p>
+                <p>Emergency: +91 XXXXXXXXXX</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
