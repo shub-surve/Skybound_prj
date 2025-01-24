@@ -11,6 +11,8 @@ from .forms import GetDetailsForm
 
 
 # Function to generate PDF
+
+
 def generate_pdf(template_name, context):
     """
     Generates a PDF from the provided HTML template and context.
@@ -19,9 +21,10 @@ def generate_pdf(template_name, context):
     pdf_buffer = BytesIO()
     pisa_status = pisa.CreatePDF(html_content, dest=pdf_buffer)
     if pisa_status.err:
-        return None  # Return None if there was an error generating the PDF
+        return None 
     pdf_buffer.seek(0)
     return pdf_buffer.read()
+
 
 
 # Home View

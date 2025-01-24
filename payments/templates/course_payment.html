@@ -224,6 +224,13 @@
             form.method = "POST";
             form.action = "{% url 'payments:payment_callback' %}";
 
+            // Add CSRF token
+            var csrfToken = '{{ csrf_token }}';
+            var hiddenFieldCsrf = document.createElement("input");
+            hiddenFieldCsrf.type = "hidden";
+            hiddenFieldCsrf.name = "csrfmiddlewaretoken";
+            hiddenFieldCsrf.value = csrfToken;
+
             var hiddenField1 = document.createElement("input");
             hiddenField1.type = "hidden";
             hiddenField1.name = "razorpay_payment_id";
@@ -239,6 +246,7 @@
             hiddenField3.name = "razorpay_signature";
             hiddenField3.value = response.razorpay_signature;
 
+            form.appendChild(hiddenFieldCsrf); // Append CSRF token
             form.appendChild(hiddenField1);
             form.appendChild(hiddenField2);
             form.appendChild(hiddenField3);

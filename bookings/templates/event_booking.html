@@ -60,9 +60,31 @@
         text-transform: uppercase;
         letter-spacing: 1px;
     }
-
+    .booking-form select {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 1rem;
+        transition: all var(--transition-speed);
+    }
+    
+    .booking-form select option {
+        background: rgba(41, 40, 40, 0.95); /* Dark background for options */
+        color: var(--text); /* Text color */
+    }
+    
+    .booking-form select:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+    }
+    
     .booking-form input,
-    .booking-form select,
+   
     .booking-form textarea {
         width: 100%;
         padding: 1rem;
@@ -75,7 +97,7 @@
     }
 
     .booking-form input:focus,
-    .booking-form select:focus,
+  
     .booking-form textarea:focus {
         outline: none;
         border-color: var(--accent);

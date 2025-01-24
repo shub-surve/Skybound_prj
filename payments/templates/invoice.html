@@ -1,0 +1,89 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Invoice</title>
+    <style>
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .invoice-table th, .invoice-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .invoice-table th {
+            background-color: #f2f2f2;
+        }
+        
+    </style>
+</head>
+<body>
+    <div>
+        <h1 style="text-align: center;">Invoice</h1>
+        <p style="text-align: center;">Thank you for booking with Skybound!</p>
+        
+        <hr>
+
+        <h2>Booking Details</h2>
+        <table class="invoice-table">
+            <tr>
+                <th>Customer Name</th>
+                <td>{{ booking.user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ booking.user.email }}</td>
+            </tr>
+            <tr>
+                <th>{{ booking.event|default_if_none:"Course" }} Name</th>
+                <td>{{ booking.event.name|default:booking.course.course_name }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ booking.event.package|default_if_none:booking.course.start_date }}</td>
+            </tr>
+            <tr>
+                <th>Payment Status</th>
+                <td>{{ booking.payment_status }}</td>
+            </tr>
+            <tr>
+                <th>Order ID</th>
+                <td>{{ razorpay_order_id }}</td>
+            </tr>
+            <tr>
+                <th>Booking Date</th>
+                <td>{{ booking.created_at }}</td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <h2>Payment Summary</h2>
+        <table class="invoice-table">
+            <tr>
+                <th>Amount Paid</th>
+                <td>₹{{ amount }}</td>
+            </tr>
+            <tr>
+                <th>Payment Gateway</th>
+                <td>Razorpay</td>
+            </tr>
+            <tr>
+                <th>Order Reference</th>
+                <td>{{ razorpay_order_id }}</td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <p style="text-align: center;">
+            <em>Skybound | Empowering Learning and Experiences</em>
+        </p>
+    </div>
+</body>
+</html>
+{% endblock %}

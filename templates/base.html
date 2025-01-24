@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary: #0f0f0f;
-            --accent: #ff0000;
+            --accent:rgb(27, 186, 239);
             --text: #ffffff;
             --footer-bg: #1a1a1a;
             --footer-text: #999;
@@ -233,7 +233,7 @@
                 <a href="{% url 'events_page' %}">Events</a>
                 <a href="{% url 'courses' %}">Courses</a>
                 <a href="{% url 'blogs' %}">Explore</a>
-                <a href="#">About Us</a>
+                <a href="{% url "aboutus" %}">About Us</a>
                 {% if user.is_authenticated %}
                     <a href="{% url "profile" %}">Profile</a>
                     <a href="{% url 'account_logout' %}">Logout</a>
@@ -255,7 +255,7 @@
             <div class="footer-section">
                 <h3>Programs</h3>
                 <ul class="footer-links">
-                    <li><a href="#">AFF License</a></li>
+                    <li><a href="http://127.0.0.1:8000/course-detail/1">AFF License</a></li>
                     <li><a href="#">WFJC Course</a></li>
                     <li><a href="#">Supersonic Division</a></li>
                 </ul>
@@ -263,10 +263,8 @@
             <div class="footer-section">
                 <h3>Company</h3>
                 <ul class="footer-links">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Safety</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
+                    <li><a href="{% url "aboutus" %}">About Us</a></li>
+                    <li><a href="{% url "safety" %}">Safety</a></li>
                 </ul>
             </div>
             <div class="footer-section">

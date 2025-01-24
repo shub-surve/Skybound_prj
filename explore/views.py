@@ -28,3 +28,6 @@ def profile_view(request):
 
 def faq_page(request):
     return render(request , 'basics/faq.html')
+
+def aboutus(request):
+    return render(request , 'basics/aboutus.html')

@@ -6,139 +6,169 @@
 <head>
     <style>
         :root {
-            --primary: #dc2626;
-            --primary-light: #ef4444;
-            --primary-dark: #991b1b;
-            --dark: #171717;
-            --dark-lighter: #262626;
+            --sky-blue: #38bdf8;
+            --sky-blue-light: #93c5fd;
+            --sky-blue-dark: #0284c7;
+            --dark: #1e293b;
+            --dark-lighter: #334155;
             --gray-100: #f3f4f6;
             --gray-300: #d1d5db;
             --gray-400: #9ca3af;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.5;
+            font-family: "Inter", sans-serif;
             color: var(--gray-100);
-            background-color: var(--dark);
+            background: linear-gradient(to bottom, var(--sky-blue-light), var(--dark));
             margin: 0;
             padding: 2rem;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: var(--dark-lighter);
             padding: 2rem;
+            background: var(--dark-lighter);
             border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--primary-dark);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--sky-blue-dark);
         }
 
-        h1 {
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--sky-blue);
+        }
+
+        .profile-info {
+            flex: 1;
+            margin-left: 2rem;
+        }
+
+        .profile-info h1 {
             font-size: 2rem;
             color: var(--gray-100);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .user-info {
-            background-color: var(--dark);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--primary-dark);
-        }
-
-        .email {
+        .profile-info .email {
             color: var(--gray-300);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--gray-100);
             margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--sky-blue);
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary);
         }
 
         .events-list {
             display: grid;
-            gap: 1rem;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
         .event-card {
-            background: var(--dark);
-            border: 1px solid var(--primary-dark);
+            background: var(--dark-lighter);
+            border: 1px solid var(--sky-blue-dark);
             padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
+            border-radius: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
 
         .event-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
+            transform: translateY(-4px);
+            border-color: var(--sky-blue);
         }
 
         .event-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            color: var(--primary-light);
-            margin-bottom: 0.5rem;
+            color: var(--sky-blue-light);
         }
 
         .event-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .detail-item {
+            margin-top: 1rem;
             color: var(--gray-300);
         }
 
-        .detail-item strong {
+        .event-details strong {
             color: var(--gray-400);
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--success);
+            color: var(--gray-100);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #059669;
         }
 
         .social-accounts {
             display: flex;
-            flex-wrap: wrap;
             gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
         .social-account {
             background: var(--dark);
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--gray-300);
-            border: 1px solid var(--primary-dark);
-            transition: border-color 0.2s ease;
+            border: 1px solid var(--sky-blue-dark);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .social-account:hover {
-            border-color: var(--primary);
+            transform: scale(1.05);
+            border-color: var(--sky-blue);
         }
 
         .empty-state {
             text-align: center;
             padding: 2rem;
             color: var(--gray-300);
-            background: var(--dark);
+            background: var(--dark-lighter);
             border-radius: 0.5rem;
-            border: 1px solid var(--primary-dark);
+            border: 1px solid var(--sky-blue-dark);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="user-info">
-            <h1>Welcome, {{ user.username }}</h1>
-            <div class="email">
-                <strong>Email:</strong> {{ user.email }}
+        <div class="profile-header">
+            <img src="{{ user.profile_picture.url|default:'/static/images/default-avatar.png' }}" alt="Profile Picture">
+            <div class="profile-info">
+                <h1>{{ user.username }}</h1>
+                <div class="email">
+                    <strong>Email:</strong> {{ user.email }}
+                </div>
+                <a href="" class="cta-button">Edit Profile</a>
             </div>
         </div>
 
@@ -149,15 +179,9 @@
             <div class="event-card">
                 <div class="event-title">{{ booking.event.name }}</div>
                 <div class="event-details">
-                    <div class="detail-item">
-                        <strong>Date:</strong> {{ booking.event.package }}
-                    </div>
-                    <div class="detail-item">
-                        <strong>Status:</strong> {{ booking.payment_status }}
-                    </div>
-                    <div class="detail-item">
-                        <strong>Booked:</strong> {{ booking.created_at }}
-                    </div>
+                    <div><strong>Package:</strong> {{ booking.event.package }}</div>
+                    <div><strong>Status:</strong> {{ booking.payment_status }}</div>
+                    <div><strong>Booked On:</strong> {{ booking.created_at }}</div>
                 </div>
             </div>
             {% endfor %}
