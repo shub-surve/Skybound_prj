@@ -22,7 +22,8 @@ class Event(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     cover_img = models.ImageField(upload_to='event/covers', max_length=None)
 
-
+    def save(self , *args, **kwargs):
+        self.capacity -= 1
 
 class UserDetails(models.Model):
     username = models.CharField(max_length=150)
@@ -43,6 +44,7 @@ class CourseDetails(models.Model):
     course_duration = models.CharField(max_length=50)
     registration_fees = models.BigIntegerField(null=True, blank=True)
     total_fees = models.BigIntegerField(null=True, blank=True)
+    capacity = models.IntegerField(null=True)
     start_date = models.DateField()
     course_desc = RichTextField()
     itinerary = RichTextField()

@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .payment-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        color: var(--text);
+    }
+
+    .event-header {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+
+    .event-cover {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .event-title-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    }
+
+    .event-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .event-price {
+        font-size: 1.5rem;
+        color: var(--accent);
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .event-details {
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .trainer-section {
+        margin-top: 2rem;
+    }
+
+    .trainer-card {
+        display: flex;
+        align-items: center;
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .trainer-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+
+    .trainer-details {
+        flex: 1;
+    }
+
+    .trainer-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .trainer-desc {
+        font-size: 0.9rem;
+        color: var(--footer-text);
+    }
+
+    .course-images {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .course-images img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .payment-sidebar {
+        position: sticky;
+        top: calc(var(--nav-height) + 2rem);
+        background: rgba(15, 15, 15, 0.95);
+        border-radius: 12px;
+        padding: 2rem;
+        height: fit-content;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .important-note {
+        background: rgba(255, 0, 0, 0.1);
+        border-left: 4px solid var(--accent);
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .payment-button {
+        background: var(--accent);
+        color: var(--text);
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        margin-top: 1rem;
+    }
+
+    .payment-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+</style>
+
+<div class="payment-container">
+    <div class="event-header">
+        <img src="{{ booking.course.course_image_set.first.image.url }}" alt="{{ booking.course.course_name }}" class="event-cover">
+        <div class="event-title-container">
+            <h1 class="event-title">{{ booking.course.course_name }}</h1>
+            <div class="event-price">₹{{ booking.course.total_fees }}</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="event-details">
+            <div class="section">
+                <h2>Course Description</h2>
+                <div>{{ booking.course.course_desc|safe }}</div>
+            </div>
+
+            <div class="trainer-section">
+                <h2>Meet the Trainers</h2>
+                {% for trainer in booking.course.trainer.all %}
+                <div class="trainer-card">
+                    <img src="{{ trainer.profile_pic.url }}" alt="{{ trainer.first_name }}">
+                    <div class="trainer-details">
+                        <div class="trainer-name">{{ trainer.first_name }} {{ trainer.last_name }}</div>
+                        <div class="trainer-desc">{{ trainer.desc }}</div>
+                        <div class="trainer-experience">Jumps: {{ trainer.no_of_jumps }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="section">
+                <h2>Gallery</h2>
+                <div class="course-images">
+                    {% for image in booking.course.course_image_set.all %}
+                    <img src="{{ image.image.url }}" alt="{{ booking.course.course_name }}">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-sidebar">
+            <div class="section">
+                <h2>Booking Summary</h2>
+                <ul class="detail-list">
+                    <li>Package: {{ booking.course.course_name }}</li>
+                    <li>Registration Fees: ₹{{ booking.course.registration_fees }}</li>
+                    <li>Total Fees: ₹{{ booking.course.total_fees }}</li>
+                    <li>Capacity: {{ booking.course.capacity }}</li>
+                </ul>
+            </div>
+
+            <div class="important-note">
+                <strong>Cancellation Policy:</strong>
+                <p>100% refund if cancelled 7 days before the event<br>
+                   50% refund if cancelled 3-7 days before the event<br>
+                   No refund for cancellations within 72 hours</p>
+            </div>
+
+            <form action="" method='post' id="payment-form">
+                {% csrf_token %}
+                <button id="rzp-button1" class="payment-button">Pay Now</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ settings.RAZORPAY_SECRET_KEY }}",
+        "amount": {{ amount|floatformat:0|add:"00" }},
+        "currency": "INR",
+        "name": "{{ booking.course.course_name }}",
+        "description": "Payment for course booking",
+        "order_id": "{{ razorpay_order_id }}",
+        "handler": function (response) {
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "{% url 'payments:payment_callback' %}";
+
+            var hiddenField1 = document.createElement("input");
+            hiddenField1.type = "hidden";
+            hiddenField1.name = "razorpay_payment_id";
+            hiddenField1.value = response.razorpay_payment_id;
+
+            var hiddenField2 = document.createElement("input");
+            hiddenField2.type = "hidden";
+            hiddenField2.name = "razorpay_order_id";
+            hiddenField2.value = response.razorpay_order_id;
+
+            var hiddenField3 = document.createElement("input");
+            hiddenField3.type = "hidden";
+            hiddenField3.name = "razorpay_signature";
+            hiddenField3.value = response.razorpay_signature;
+
+            form.appendChild(hiddenField1);
+            form.appendChild(hiddenField2);
+            form.appendChild(hiddenField3);
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        "prefill": {
+            "name": "{{ booking.user.first_name }} {{ booking.user.last_name }}",
+            "email": "{{ booking.user.email }}",
+            "contact": "{{ booking.user.phone }}"
+        },
+        "theme": {
+            "color": "#ff0000"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button1').onclick = function(e) {
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+{% endblock %}

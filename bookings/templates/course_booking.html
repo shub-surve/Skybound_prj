@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="booking-container">
+    <div class="booking-header">
+        <h1>Booking for {{ course.name }}</h1>
+    </div>
+
+    <form method="post" class="booking-form">
+        {% csrf_token %}
+       
+        {{ form.as_p }}
+       
+        <button type="submit" class="submit-btn">
+            Book Course
+        </button>
+    </form>
+</div>
+{% endblock %}

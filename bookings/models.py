@@ -1,6 +1,7 @@
 from django.db import models
 from events.models import Event , CourseDetails
 from django_countries.fields import CountryField
+from django.contrib.auth.models import User
 # Create your models here.
 EXPERIENCE_CHOICE = [
     ('BEG' , "BEGINNER (with less then 3 jumps)"),
@@ -21,6 +22,7 @@ class Event_Booking(models.Model):
     """
     Events Booking-routes to payment
     """
+    user = models.ForeignKey(User, on_delete=models.CASCADE , null=True , blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -47,6 +49,7 @@ class Course_Booking(models.Model):
     """
     Course Booking-routes to payment
     """
+    user = models.ForeignKey(User, on_delete=models.CASCADE , null=True)
     course = models.ForeignKey(CourseDetails, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -66,7 +69,7 @@ class Course_Booking(models.Model):
 
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.course.name}"
+        return f"{self.first_name} {self.last_name} - {self.course.course_name}"
     
 
 

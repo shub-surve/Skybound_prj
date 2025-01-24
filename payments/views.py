@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404 , redirect   
 from django.http import JsonResponse
 from razorpay import Client
 from django.conf import settings
@@ -51,7 +51,7 @@ def course_payment_view(request, booking_id):
         return JsonResponse({'status': 'error', 'message': 'Payment already completed for this booking.'})
 
     # Calculate amount
-    amount = booking.course.price * 100  # Convert to paise
+    amount = booking.course.registration_fees * 100  # Convert to paise
 
     # Create Razorpay order
     order_data = {
@@ -77,12 +77,10 @@ def course_payment_view(request, booking_id):
         'booking': booking,
         'amount': amount / 100,
     }
-    return render(request, 'course_payment_page.html', context)
+    return render(request, 'course_payment.html', context)
 
 import logging
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from .models import EventPayment, CoursePayment
+
 
 logger = logging.getLogger(__name__)
 
@@ -120,6 +118,7 @@ def payment_callback(request):
             # Update booking status
             booking = payment.booking
             booking.payment_status = 'Paid'
+            
             booking.save()
 
             return redirect('home')  # Redirect to a success page

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-light: #ef4444;
+            --primary-dark: #991b1b;
+            --dark: #171717;
+            --dark-lighter: #262626;
+            --gray-100: #f3f4f6;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            color: var(--gray-100);
+            background-color: var(--dark);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--dark-lighter);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-dark);
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--gray-100);
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info {
+            background-color: var(--dark);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--primary-dark);
+        }
+
+        .email {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--gray-100);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .events-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .event-card {
+            background: var(--dark);
+            border: 1px solid var(--primary-dark);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .detail-item {
+            color: var(--gray-300);
+        }
+
+        .detail-item strong {
+            color: var(--gray-400);
+        }
+
+        .social-accounts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-account {
+            background: var(--dark);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            border: 1px solid var(--primary-dark);
+            transition: border-color 0.2s ease;
+        }
+
+        .social-account:hover {
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-300);
+            background: var(--dark);
+            border-radius: 0.5rem;
+            border: 1px solid var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-info">
+            <h1>Welcome, {{ user.username }}</h1>
+            <div class="email">
+                <strong>Email:</strong> {{ user.email }}
+            </div>
+        </div>
+
+        <h2 class="section-title">Your Registered Events</h2>
+        {% if bookings %}
+        <div class="events-list">
+            {% for booking in bookings %}
+            <div class="event-card">
+                <div class="event-title">{{ booking.event.name }}</div>
+                <div class="event-details">
+                    <div class="detail-item">
+                        <strong>Date:</strong> {{ booking.event.package }}
+                    </div>
+                    <div class="detail-item">
+                        <strong>Status:</strong> {{ booking.payment_status }}
+                    </div>
+                    <div class="detail-item">
+                        <strong>Booked:</strong> {{ booking.created_at }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            You have not registered for any events yet.
+        </div>
+        {% endif %}
+
+        <h2 class="section-title">Connected Social Accounts</h2>
+        <div class="social-accounts">
+            {% for account in user.socialaccount_set.all %}
+            <div class="social-account">
+                {{ account.provider|capfirst }} ({{ account.uid }})
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

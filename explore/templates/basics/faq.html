@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+<head>
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-light: #ef4444;
+            --primary-dark: #991b1b;
+            --dark: #171717;
+            --dark-lighter: #262626;
+            --gray-100: #f3f4f6;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            color: var(--gray-100);
+            background-color: var(--dark);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--dark-lighter);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--gray-300);
+            font-size: 1.2rem;
+        }
+
+        .faq-categories {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .category {
+            background: var(--dark);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--primary-dark);
+        }
+
+        .category-title {
+            color: var(--primary-light);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .question {
+            font-weight: 600;
+            color: var(--gray-100);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .answer {
+            color: var(--gray-300);
+            padding-left: 1rem;
+            border-left: 2px solid var(--primary-dark);
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--primary-dark);
+            color: var(--gray-300);
+        }
+
+        .contact-info a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Frequently Asked Questions</h1>
+            <div class="subtitle">Everything you need to know about our sky adventures</div>
+        </div>
+
+        <div class="faq-categories">
+            <div class="category">
+                <h2 class="category-title">General Information</h2>
+                <div class="faq-item">
+                    <div class="question">What types of adventures do you offer?</div>
+                    <div class="answer">We offer a wide range of sky adventures including tandem skydiving, solo skydiving courses, paragliding experiences, hang gliding, and hot air balloon rides. Each activity is available at different skill levels from beginner to advanced.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Do I need prior experience?</div>
+                    <div class="answer">For most of our beginner experiences, no prior experience is needed. We offer comprehensive training and tandem options with certified instructors for first-timers. Advanced activities may require certification or previous experience.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">What are your operating seasons?</div>
+                    <div class="answer">We operate year-round, weather permitting. However, certain activities may be seasonal or have restricted hours during winter months. Peak season is from April to October.</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Safety & Requirements</h2>
+                <div class="faq-item">
+                    <div class="question">What are the age and weight restrictions?</div>
+                    <div class="answer">Participants must be at least 18 years old (or 16 with parental consent). Weight restrictions vary by activity: generally up to 230 lbs for skydiving and 250 lbs for paragliding. Height and weight requirements ensure proper fit of safety equipment.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">What safety measures do you have in place?</div>
+                    <div class="answer">All our activities follow strict safety protocols. We use state-of-the-art equipment that's regularly inspected and maintained. Our instructors are certified with extensive experience and undergo regular training. We also maintain comprehensive insurance coverage.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">What medical conditions might prevent participation?</div>
+                    <div class="answer">Certain heart conditions, recent surgeries, pregnancy, and severe back problems may restrict participation. We recommend consulting your doctor and informing us of any medical conditions before booking.</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Booking & Pricing</h2>
+                <div class="faq-item">
+                    <div class="question">How far in advance should I book?</div>
+                    <div class="answer">We recommend booking at least 2-3 weeks in advance, especially during peak season. Last-minute bookings may be available but are subject to availability. Group bookings should be made at least 1 month in advance.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">What's included in the price?</div>
+                    <div class="answer">Prices include all necessary equipment, safety gear, training, and instruction. Insurance is also included. Some activities include video packages. Specialty equipment or custom experiences may incur additional costs.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">What's your cancellation policy?</div>
+                    <div class="answer">Full refunds are available for cancellations made 72 hours in advance. Weather-related cancellations can be rescheduled at no additional cost. Last-minute cancellations may be subject to a fee.</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Preparation & Equipment</h2>
+                <div class="faq-item">
+                    <div class="question">What should I wear?</div>
+                    <div class="answer">Wear comfortable, weather-appropriate clothing and closed-toe shoes. We provide all necessary safety equipment and jumpsuits. Avoid loose jewelry and secure long hair. Glasses and contact lenses can be worn under our provided goggles.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Can I bring my own camera/GoPro?</div>
+                    <div class="answer">Personal cameras are generally not allowed for safety reasons on most activities. We offer professional photo and video packages with specially mounted equipment operated by trained professionals.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">How long does each experience take?</div>
+                    <div class="answer">Plan for 3-4 hours total time including check-in, training, and the activity itself. Actual flight/jump time varies by activity: 20 minutes for paragliding, 5-7 minutes for skydiving. Training courses may take multiple days.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <p>Still have questions? Contact our adventure specialists:</p>
+            <p>Phone: 1-800-SKY-JUMP | Email: <a href="mailto:info@skyadventures.com">info@skyadventures.com</a></p>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
